@@ -5,51 +5,78 @@ import java.io.FileNotFoundException;
 
 public class Party {
 
+  Person[][] tabSet;
   public ArrayList<Person> namesList = new ArrayList<Person>();
+  // make an array list for each table 
+  public ArrayList<String> table1List = new ArrayList<String>();
+  public ArrayList<String> table2List = new ArrayList<String>(); 
+  public ArrayList<String> table3List = new ArrayList<String>();
+  public ArrayList<String> table4List = new ArrayList<String>();
+  public ArrayList<String> table5List = new ArrayList<String>(); 
+    
 
   public int table = 10;
   public int numppl = 10;
-  public int add1 = 0;
-  public int add2 = 0;
-  public int add3 = 0;
-  public int add4 = 0;
-  public int add5 = 0;
-  public int add6 = 0;
-  public int add7 = 0;
-  public int add8 = 0;
-  public int add9 = 0;
-  public int add10 = 0;
-  public int add11 = 0;
-  public int add12 = 0;
-  public int add13 = 0;
-  public int add14 = 0;
-  public int add15 = 0;
   public int numgleft = 10;
   public int tablepos = 10;
+   
 
   public void addPerson() {
-    while (numgleft >= 0) {
-      System.out.println("Would you like to add a new guest? (y/n)");
+   for (int i =0; i<=numgleft; i++) { // for loop that will stop after 10 guests
+      
       Scanner scan = new Scanner(System.in);
-      String answer = scan.nextLine();
-
-      if (answer.equals("y")) {
+    
+         int countg = 0;
         System.out.print("Enter the first name of the guest:");
         String first = scan.nextLine();
         System.out.print("Enter the last name of the guest: ");
         String last = scan.nextLine();
         System.out.print("What company is this guest from (1-15): ");
         int company = scan.nextInt();
-        // have to add something here that will chick to make sure not more than 10 ppl
-        // per company
-        namesList.add(new Person(last, first, company));
-      } // close if
-    } // close while
+        
+        for(Person guest: namesList) {
+          if(guest.getComp() == company) {
+            countg++;
+          } // close if
+        } // close for each
+          if (countg > 10) {
+            System.out.println("Sorry but we can't add that guest. There are already 10 people from that company attending this party.");
+        } // close if
+        else{
+        int ID = i+101;
+        
+          System.out.println("They have been added to the guest list!");
+        i++;
+        
+        namesList.add(new Person(ID, last, first, company));
+        } // closer else 
+      } // close if yes
+     //else {
+      // break;
+     }// clsoe if yes
+        
+        // have to add something here that will chick to make sure not more than 10 ppl per company
+    // go through each person in array list and make a counter starting with 0
+    // add to counter everytime that number is seen and if number come more than 10 times then print out that we cannot add that person
 
-  } // clsoe add person
+    
+
+  
+
+  public void lookPerson() {
+    Scanner scan = new Scanner(System.in);
+      System.out.print("What is their first name: ");
+      String search = scan.nextLine();
+      for (Person guest: namesList) {
+        if(guest.getFName().equals(search)) {
+         System.out.print(guest); 
+        } // clsoe if search 
+      } // close for 
+     // close if 
+  } // close look person
 
   public void loadFile() {
-      try {
+    try {
       File myObj = new File("Names.txt");
       Scanner myReader = new Scanner(myObj);
       while (myReader.hasNextLine()) {
@@ -64,251 +91,95 @@ public class Party {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }
-} // close load
+  } // close load
 
-  //need to add 2d aray - 10 x 10
-  public void AssignGuests() {
-  int guests [] [] = new int[table][tablepos];
+  // need to add 2d aray - 10 x 10 10 seats across by 10 tables down
+  // manually put in the person id at each seat
+  // then get id of each person in array list and if it matches what im looking
+  // for then add it to the table
+  //
+  public void SetUp() {
+    // make 2d array with 10 tables 10 tables 
+    int i = 0; // starting with 0 (first) in array list  
     
-  } // close assign guest 
+    tabSet = new Person[table][tablepos];
+    for (int s = 0; s<tablepos; s++) { // change these 
+      for (int t = 0; t<table; t++) {
+       //while size of arraylist is > (s+1)*10+(t+1)
+       // System.out.print(namesList.size());
+        //while( ((s+1)*10+(t+1))<=namesList.size() ) {
+            tabSet[t][s] = namesList.get(i); // get ID of the person in the array list and assign that to the spot in the array 
+        //could modify their table and seat id of person class
+        //namesList.get(i).setTable(t)
+        // public set table takes integer and sets in instance variable 
+            i++;
+           // add to the array list of that table 
+       // }// close while
 
-  public void assignComp1() {
-    ArrayList<String> comp1List = new ArrayList<String>();
+        
+        //if (tabSet[0][y+1] != namesList.get(i).getComp()) {
+        //  table1List.add(); // get name 
+          // remove them from array (this table)
+        
 
-    while (add1 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 1) {
-          comp1List.add(guest.getName());
-          add1++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
+        // if table itterate by one and get companies = same then remove it 
+      } // close tablepos for 
+    } // clsoe table for 
 
-  public void assignComp2() {
-    ArrayList<String> comp2List = new ArrayList<String>();
+  
+      
+    } // close forpubli
+   // System.out.print(namesList.get(tabSet[2][2]));
+     // close set up 
 
-    while (add2 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 2) {
-          comp2List.add(guest.getName());
-          add2++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
+//public void printTable() {
+  // could ask use what table they want to print
+   // for (int j=0; j<10; j++) {
+    //  System.out.println(tabSet[2][j]); // adn sotre as varaibela dna put in first one as avariable -1
+   
+public void printAllTables() {
+for (int k=0; k<10; k++) {
+    System.out.println("\nTable: " + (k+1));
+    for (int j=0; j<10; j++) {
+      System.out.print("Seat " + (j+1) + ") ");
+      System.out.println(tabSet[k][j]); // adn sotre as varaibela dna put in first one as avariable -1
+    } 
+  System.out.print("\n");
+}// close
+}
+  public void askTable() { // need to debug
+    // could ask use what table they want to print
+    System.out.print("What table would you like to look up: ");
+    Scanner scan = new Scanner(System.in);
+    int tab = scan.nextInt();
+    System.out.println("\nTable: " + tab);
+    for (int j=0; j<10; j++) {
+      System.out.print("Seat " + (j+1) + ") ");
+      System.out.println(tabSet[tab-1][j]); // adn sotre as varaibela dna put in first one as avariable -1
+  } // close ask table 
+  } // close ask table
+ 
+//can you follow @murphy.luath on insta?
 
-  public void assignComp3() {
-    ArrayList<String> comp3List = new ArrayList<String>();
-
-    while (add3 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 3) {
-          comp3List.add(guest.getName());
-          add3++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp4() {
-    ArrayList<String> comp4List = new ArrayList<String>();
-
-    while (add4 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 4) {
-          comp4List.add(guest.getName());
-          add4++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp5() {
-    ArrayList<String> comp5List = new ArrayList<String>();
-
-    while (add5 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 5) {
-          comp5List.add(guest.getName());
-          add5++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  } // clse method
-
-  public void assignComp6() {
-    ArrayList<String> comp6List = new ArrayList<String>();
-
-    while (add6 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 6) {
-          comp6List.add(guest.getName());
-          add6++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp7() {
-    ArrayList<String> comp7List = new ArrayList<String>();
-
-    while (add7 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 7) {
-          comp7List.add(guest.getName());
-          add7++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp8() {
-    ArrayList<String> comp8List = new ArrayList<String>();
-
-    while (add8 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 8) {
-          comp8List.add(guest.getName());
-          add8++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp9() {
-    ArrayList<String> comp9List = new ArrayList<String>();
-
-    while (add9 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 9) {
-          comp9List.add(guest.getName());
-          add9++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp10() {
-    ArrayList<String> comp10List = new ArrayList<String>();
-
-    while (add10 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 10) {
-          comp10List.add(guest.getName());
-          add10++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp11() {
-    ArrayList<String> comp11List = new ArrayList<String>();
-
-    while (add11 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 11) {
-          comp11List.add(guest.getName());
-          add11++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp12() {
-    ArrayList<String> comp12List = new ArrayList<String>();
-
-    while (add12 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 12) {
-          comp12List.add(guest.getName());
-          add12++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp13() {
-    ArrayList<String> comp13List = new ArrayList<String>();
-
-    while (add13 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 13) {
-          comp13List.add(guest.getName());
-          add13++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp14() {
-    ArrayList<String> comp14List = new ArrayList<String>();
-
-    while (add14 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 14) {
-          comp14List.add(guest.getName());
-          add14++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-  public void assignComp15() {
-    ArrayList<String> comp15List = new ArrayList<String>();
-
-    while (add15 <= numppl) {
-      for (Person guest : namesList) { // change to for loop nameList.get(i).getComp() == nameList.get(i+1).getComp()
-        if (guest.getComp() == 15) {
-          comp15List.add(guest.getName());
-          add15++;
-        } // clsoe if
-          // get company number and if comany number is not same then add to array list
-      } // close for
-        // 2d array with table number and name
-    } // clsoe while
-  }
-
-//public void tabcomp1() {
- // double p1 = Math.floor(Math.random() * table) + 1; 
- // double p1set = Math.floor(Math.random() * tablepos) + 1;
-    // String [table numbr][table postiton]
-  //Double [] [] comp1 = new Double[p1] [p1set]; 
-  // creat 2d array for each person why giving error how do I make random int 
+ public void getFullList() {
+    for(Person guests: namesList) {
+      System.out.println("\n" + guests);
+    }// close for
     
-  //for (String att : comp1List) {
-    // for each person in the company list assign them a random table and place at table 
-   // String compan1[] =
-  // close for
+  } // close full list
+    
+ 
 
+   // for(int i=0; i<=table; i++) {
+    // if(tabset[i][0] = namesList.get(i).getComp()); // want to go trough each table and get the comp for each and see if its the same as the one next to it
+
+  // print guest method that will print the guest array list 
+   public void printGuest() {
+     System.out.print(namesList);
+   }   
+    
+   
+  // close assign guest
 
   // then do 2d array to desgin table and place at table
 
